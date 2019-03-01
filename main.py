@@ -2,17 +2,22 @@
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+import time
 import os
 import textwrap
 import re
 
 # website = str(input("Which Book would you like to steal to today? https:// "))
-
 # testing with BTTH novel for now
 website = "wuxiaworld.com/novel/battle-through-the-heavens"
 
+profile = webdriver.FirefoxProfile()
+profile.set_preference("browser.cache.disk.enable", False)
+profile.set_preference("browser.cache.memory.enable", False)
+profile.set_preference("browser.cache.offline.enable", False)
+profile.set_preference("network.http.use-cache", False)
 print("Opening Firefox")
-start = webdriver.Firefox()
+start = webdriver.Firefox(profile)
 print("Going to the website")
 start.get("https://" + website)
 start.stop_client()  # Because wuxiaworld has annoying ads that keep reloading
@@ -58,12 +63,14 @@ def chapter_thief():
         chapter = open((chapter_title + ".txt"), "w+", encoding="utf-8")
         try:
             chapter.write(textwrap.fill(chapter_text, 100))
+            time.sleep(3)
         finally:
             chapter.close()
         print("Finished Chapter " + str(chapter_number))
 
         chapter_number = chapter_number + 1
         start.back()
+        time.sleep(3)
 
 
 if __name__ == "__main__":
