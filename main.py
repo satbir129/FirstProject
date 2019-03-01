@@ -18,9 +18,9 @@ profile.set_preference("browser.cache.offline.enable", False)
 profile.set_preference("network.http.use-cache", False)
 print("Opening Firefox")
 start = webdriver.Firefox(profile)
+start.install_addon('C:\\Users\\Sati\\PycharmProjects\\SecondScript\\ublock_origin-1.18.4-an+fx.xpi')
 print("Going to the website")
 start.get("https://" + website)
-start.stop_client()  # Because wuxiaworld has annoying ads that keep reloading
 
 
 def chapter_exists(chapter_number):
@@ -63,14 +63,12 @@ def chapter_thief():
         chapter = open((chapter_title + ".txt"), "w+", encoding="utf-8")
         try:
             chapter.write(textwrap.fill(chapter_text, 100))
-            time.sleep(3)
+            time.sleep(5)
         finally:
             chapter.close()
+            chapter_number = chapter_number + 1
+            start.back()
         print("Finished Chapter " + str(chapter_number))
-
-        chapter_number = chapter_number + 1
-        start.back()
-        time.sleep(3)
 
 
 if __name__ == "__main__":
